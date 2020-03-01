@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Number Api Facts</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <style>
+      #fact {
+        display: none;
+      }
+      .loading {
+        display: none;
+        width: 30%;
+        margin: auto;
+      }
+    </style>
+  </head>
+
+  <body class="bg-dark">
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mx-auto">
+            <div class="card bg-danger text-white mt-5 p-4">
+              <h1>Number Facts !!!</h1>
+              <p>Enter a number and get the random facts</p>
+              <input
+                type="number"
+                name="number"
+                class="form-control"
+                id="random-input"
+                placeholder="Enter any random number"
+              />
+
+              <div id="fact" class="card-body">
+                <h4 class="card-title">Number Fact</h4>
+                <p id="factText" class="card-text"></p>
+              </div>
+
+              <div class="loader loading">
+                <img
+                  style="margin: auto;"
+                  width="60px"
+                  src="loader.gif"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let fact = document.querySelector("#fact");
+      let factText = document.querySelector("#factText");
+
+      let randomInput = document.querySelector("#random-input");
+      randomInput.addEventListener("input", getFactFetch);
+
+      // Using ajax request
+      // function ajaxFetchApi() {
+      //     let number = randomInput.value;
+      //     let xhr = new XMLHttpRequest();
+      //     xhr.open("GET", "http://numbersapi.com/" + number);
+      //     xhr.onload = function() {
+      //     if (this.status == 200 && number != "") {
+      //         fact.style.display = "block";
+      //         factText.innerHTML = this.responseText;
+      //     }
+      //     };
+      //     xhr.send();
+      // }
+
+      // Using fetch api way
+
+      function getFactFetch() {
+        let number = randomInput.value;
+        let loader = document.querySelector(".loader");
+        loader.style.display = "block";
+        fetch("http://numbersapi.com/" + number)
+          .then(response => response.text())
+          .then(data => {
+            if (number != "") {
+              loader.style.display = "none";
+              fact.style.display = "block";
+              factText.innerHTML = data;
+            }
+            loader.style.display = "none";
+          })
+          .catch(err => console.log(err));
+      }
+    </script>
+  </body>
+</html>
